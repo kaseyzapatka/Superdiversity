@@ -5,12 +5,17 @@
 .Ruserdata
 .DS_Store
 **.html
+*.csv
+*.xlsx
 *.png
 *.jpeg
 *.pdf
 *.js
 *.css
 *.bib
+*.shp
+*.docx
+
 
 # folders
 literature/
@@ -22,6 +27,8 @@ admin/
 logs/
 invoice/
 sample_data/
+6_Shapefiles/
 
 
 
+.Rproj.user
