@@ -1,0 +1,351 @@
+---
+title: "Immigration Plots"
+subtitle: "Plots are based on Department of Homeland Security, Yearbook of Immigration Statistics"
+author: "Kasey Zapatka"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r chunk-settings, echo = FALSE}
+knitr::opts_chunk$set(
+    fig.align = 'center',
+    warnings = FALSE,             # prevents warnings from appearing in code chunk
+    message = FALSE,              # prevents messages from appearing in code chunk
+    echo = FALSE,                 # do not echo code in file
+    include = TRUE                # include output in file
+    )
+```
+
+<br>
+
+# Description
+
+This file explores some of the interesting patters in the United States immigration data associated with the Superdiversity data. Specifically, this file explores immigration over time by region and for the top 25 sending countries, for both temporary and permanent categories of immigration. 
+
+<br>
+
+```{r initialize, include = FALSE}
+
+# remove all objects in R and clear R environment
+remove(list=ls())
+
+# Load necessary packages
+my.packages <- c("tidyverse", "sf", "here", "fs", "readxl", "gganimate")
+
+# apply necessary packages    
+lapply(my.packages, library, character.only = TRUE)
+
+# remove package object
+rm(my.packages)
+
+# set relative file path to project directory
+here()
+
+
+# load data
+# --------------------------------------------------------------------------
+
+# set paths for PR and TR separately 
+PRpaths <- dir_ls(here("Data/Phase 1/1_Tree Diagram/Tables"), regexp = "PRNY" ) %>% 
+  print()
+
+TRpaths <- dir_ls(here("Data/Phase 1/1_Tree Diagram/Tables"), regexp = "TRNY" ) %>% 
+  print()
+
+# use map function to open all files 
+PRdata <- map_dfr(PRpaths, ~read_excel(.x)) %>% 
+  glimpse()
+
+TRdata <- map_dfr(TRpaths, ~read_excel(.x)) %>% 
+  glimpse()
+
+
+
+```
+
+
+
+```{r plotting-functions}
+
+## this chunk install functions for plotting
+
+# line chart functions 
+# --------------------------------------------------------------------------
+
+# plotting function for Permanent Residents 
+lineplot_PR <- function(data, column, labels = scales::comma, title, subtitle) {
+  
+  data %>%
+      group_by(region, year) %>% 
+      summarize(total = sum(total),
+                diversity = sum(diversity),
+                family_based = sum(family_based),
+                refugee_assylee = sum(refugee_assylee),
+                other = sum(other)) %>% 
+      ggplot(aes(x = year, y = {{column}}, color = region, )) +
+        geom_line() +
+        theme_classic() +
+        theme(legend.position = "top") +
+        scale_color_manual(values = c("#000000", "#9E4410", "#F5A578", "#EB0400", "#93109E", "#EDB1F2")) +
+        scale_y_continuous(labels = labels) +
+        scale_x_continuous(breaks = seq(from = 1997, to = 2019, by = 2)) +
+        labs(title = title, 
+             subtitle = subtitle, 
+             caption = "Source: Department of Homeland Security, Yearbook of Immigration Statistics") +
+        xlab("Year") 
+}
+
+# plotting function for Temporary Residents 
+lineplot_TR <- function(data, column, labels = scales::comma, title, subtitle) {
+  
+  data %>%
+      group_by(region, year) %>% 
+      summarize(total = sum(total),
+            tempworker = sum(tempworker),
+            diplomats = sum(diplomats),
+            students = sum(students),
+            other_unknown = sum(other_unknown)) %>% 
+      ggplot(aes(x = year, y = {{column}}, color = region, )) +
+        geom_line() +
+        theme_classic() +
+        theme(legend.position = "top") +
+        scale_color_manual(values = c("#000000", "#9E4410", "#F5A578", "#EB0400", "#93109E", "#EDB1F2")) +
+        scale_y_continuous(labels = labels) +
+        scale_x_continuous(breaks = seq(from = 1997, to = 2019, by = 2)) +
+        labs(title = title, 
+             subtitle = subtitle, 
+             caption = "Source: Department of Homeland Security, Yearbook of Immigration Statistics") +
+        xlab("Year") 
+}
+
+
+# bar chart functions 
+# --------------------------------------------------------------------------
+barchart_TR <- function(data, column, labels = scales::comma) {
+  
+  data %>%
+    group_by(year) %>% 
+    slice_max(n = 25, order_by = {{column}}) %>% 
+    ggplot(aes(x = reorder(country, {{column}}), y = {{column}})) +
+      coord_flip()  +
+      geom_col(fill = "#685373") +
+      theme_classic() +
+      scale_color_manual(values = c("#999999", "#358C4F", "#94FFB4", "#68D98A", "#8C2827", "#D96968")) +
+      scale_y_continuous(labels = scales::comma) +
+      xlab("Country") +
+      transition_states(year, 
+                    transition_length = 1, 
+                    state_length = 2) +
+      labs(subtitle = "Year: {closest_state}", 
+           caption = "Source: Department of Homeland Security, Yearbook of Immigration Statistics") +
+      enter_fade() +
+      exit_fade() +
+      ease_aes("sine-in-out")
+}
+
+```
+
+<br>
+
+### Family-based immigration by region 
+
+Salient here is that immigration from sending countries by region is relatively unchanged over the study period. American and Asian sending countries dominate the number of family-based immigrants and remain unchanged, whereas immigration for European countries dips below that of African countries after around 2010.
+
+<br>
+
+```{r family-based}
+
+# family-based immigration
+family_based <- lineplot_PR(data = PRdata, 
+                          column = family_based,  
+                          labels = scales::comma, 
+                          title = "Family-based immigration",
+                          subtitle = "Number of family-based immigrants entering the United States by region, 1998-2019") + 
+   ylab("Number of family-based immigrants")
+
+family_based
+
+```
+
+<br>
+
+### Diversity-based immigration by region 
+
+Before about 2004, the most diversity-based visa were issued to immigrants from European sending countries. That changed abound 2006, where immigrants from African sending countries began to receive more diversity-based visas. In 2018, European immigration via diversity-based immigration peak and then precipitously decline while African diversity-based visas increased once again  Immigration from Asian sending countries remained consistent over the study period. 
+
+<br>
+
+```{r diversity-based}
+
+# diversity-based
+diversity_based <- lineplot_PR(data = PRdata, 
+                          column = diversity, 
+                          labels = scales::comma, 
+                          title = "Diversity-based immigration",
+                          subtitle = "Number of diversity-based immigrants entering the United States by region, 1998-2019") + 
+   ylab("Number of diversity-based immigrants")
+
+diversity_based
+
+
+```
+
+<br>
+
+### Refugee/Asylee-based immigration by region 
+
+There is a lot more fluctuation in regards to Refugee/Asylee-based immigration into the United States between 1998 and 2019. Perhaps the most important trends is the peak in Asian Refugee/Asylee-based immigration around 2008 and its quick decline in 2016. Refugee/Asylee-based immigration from American countries steadily rises around 2013, but similarly to Asian immigration, declines around 2018, likely in response to Trump Administration Refugee/Asylee-based immigration policy. 
+
+<br>
+
+```{r refugee_asylee-based}
+
+# refugee_asylee-based
+refugee_asylee <- lineplot_PR(data = PRdata, 
+                          column = refugee_assylee, 
+                          labels = scales::comma, 
+                          title = "Refugee/Asylee-based immigration",
+                          subtitle = "Number of diversity-based immigrants entering the United States by region, 1998-2019") + 
+   ylab("Number of refugee/asylee-based immigrants")
+
+refugee_asylee
+
+
+```
+
+<br>
+
+### Temporary workers by region 
+
+For non-permanent, temporary workers, there is an explosion of around 2008 for American workers that somewhat declines in parallel to the Great Recession of 2009 but steadily rebounds after 2013. We also see steady increases in Asian and European temporary worker immigration of the entire study period. 
+
+<br>
+
+```{r tempworkers}
+
+# Temporary  workers
+tempworkers <- lineplot_TR(data = TRdata, 
+                          column = tempworker, 
+                          labels = scales::comma, 
+                          title = "Temporary Workers",
+                          subtitle = "Number of temporary workers entering the United States by region, 1998-2019") + 
+   ylab("Number of temporary workers")
+
+tempworkers
+
+
+```
+
+<br>
+
+### Students Visas by region 
+
+Around 2009, there was a dramatic rise in student visas being issued to students from American countries; however, the most telling story is the steady increase of visas issued to students from Asian sending countries. 
+
+<br>
+
+```{r students}
+
+# Students by region 
+students <- lineplot_TR(data = TRdata, 
+                          column = students, 
+                          labels = scales::comma, 
+                          title = "Student Visas",
+                          subtitle = "Number of student visas entering the United States by region, 1998-2019") + 
+   ylab("Number of stduent visas")
+
+students
+
+
+```
+
+<br>
+
+
+### Top 25 Student Sending Countries by Year
+
+Asian countries like China, Korea, or Japan were receiving the majority of student visas until about 2009 or 2010 when Canada and Mexico received a larger share of students visa. After about 2012, China dominated the student visa reception. 
+
+<br>
+
+```{r top-students, echo = FALSE}
+
+# This is a helpful [Youtube](https://www.youtube.com/watch?v=ccuZYgcwusU) tutorial of gganimate.
+
+# create bar chart of diplomats
+barchart_students <- barchart_TR(data = TRdata, 
+                                  column = students, 
+                                  labels = scales::comma) +
+  ylab("Number of students") +
+  labs(title = "Top 25 sending countries of students entering the US by year") 
+
+# animate barchart for diplomats
+animate(barchart_students,
+        nframes = 100, 
+        fps = 5, 
+        renderer = av_renderer())
+
+
+```
+
+
+<br>
+
+### Top 25 Temporary Worker Sending Countries by Year
+
+After about 2000, four countries were receiving the lion's share of temporary workers: Canada, Mexico, India, and Japan. The explosion of Canada and Mexico in 2009 is likely the result of administrative changes in how temporary worker visas were classified. 
+
+<br>
+
+```{r top-tempworkers, echo = FALSE}
+
+# This is a helpful [Youtube](https://www.youtube.com/watch?v=ccuZYgcwusU) tutorial of gganimate.
+# 
+# create bar chart of diplomats
+barchart_tempworker <- barchart_TR(data = TRdata, 
+                                  column = tempworker, 
+                                  labels = scales::comma) +
+  ylab("Number of temporary workers") +
+  labs(title = "Top 25 sending countries of temporary workers entering the US by year") 
+
+# animate barchart for diplomats
+animate(barchart_tempworker,
+        nframes = 100, 
+        fps = 5, 
+        renderer = av_renderer())
+
+
+```
+
+<br>
+
+### Top 25 Diplomat Sending Countries by Year
+
+The United Kingdom consistently receives the highest number of diplomat visas across the entire study period. Other well-known allies of the United States like Korea (which later were reclassified to South Korea), Mexico, and several western European countries receive the majority of diplomat visas.
+
+<br>
+
+```{r top-diplomats, echo = FALSE}
+
+# This is a helpful [Youtube](https://www.youtube.com/watch?v=ccuZYgcwusU) tutorial of gganimate.
+
+# create bar chart of diplomats
+barchart_diplomats <- barchart_TR(data = TRdata, 
+                                  column = diplomats, 
+                                  labels = scales::comma) +
+  ylab("Number of diplomats") +
+  labs(title = "Top 25 sending countries of diplomats entering the US by year") 
+  
+
+# animate barchart for diplomats
+animate(barchart_diplomats,
+        nframes = 100, 
+        fps = 5, 
+        renderer = av_renderer())
+
+
+```
+
+
+
+

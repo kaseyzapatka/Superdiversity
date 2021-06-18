@@ -1,0 +1,146 @@
+{smcl}
+{txt}{sf}{ul off}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/Users/Dora/Library/Mobile Documents/com~apple~CloudDocs/Projects/Superdiversity/Data/Phase 2/5_Intersectionality Dashboard/Logs.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}25 Sep 2020, 21:26:23
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "/var/folders/sm/vmwg2qqj01xd1c_lk1nq88sm0000gn/T//SD19036.000000"
+{txt}
+{com}. 
+.         * distribution checks 
+.         sum z_*, de
+
+          {txt}total with a college degree, working age
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res}-2.475533      -2.899226
+{txt} 5%    {res}-2.094741      -2.867219
+{txt}10%    {res}-1.874267      -2.837008       {txt}Obs         {res}     11,622
+{txt}25%    {res}-1.410803      -2.826677       {txt}Sum of Wgt. {res}     11,622
+
+{txt}50%    {res}-.5388832                      {txt}Mean          {res}-.1650431
+                        {txt}Largest       Std. Dev.     {res} 1.561852
+{txt}75%    {res} .8028722        3.76749
+{txt}90%    {res} 2.230122        3.76749       {txt}Variance      {res} 2.439383
+{txt}95%    {res} 2.936327        3.76749       {txt}Skewness      {res} .7644221
+{txt}99%    {res} 3.762603        3.76749       {txt}Kurtosis      {res} 2.761454
+
+                 {txt}total employed, working age
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res}  -15.407      -42.34506
+{txt} 5%    {res}-6.626297      -40.03212
+{txt}10%    {res}-4.157127      -39.48388       {txt}Obs         {res}     13,855
+{txt}25%    {res}-1.155362      -35.99851       {txt}Sum of Wgt. {res}     13,855
+
+{txt}50%    {res}  .566119                      {txt}Mean          {res}-.2456947
+                        {txt}Largest       Std. Dev.     {res}  3.69666
+{txt}75%    {res} 1.832639       3.488395
+{txt}90%    {res} 3.148533       3.488395       {txt}Variance      {res}  13.6653
+{txt}95%    {res} 3.488395       3.488395       {txt}Skewness      {res}-3.173417
+{txt}99%    {res} 3.488395       3.488395       {txt}Kurtosis      {res} 20.35691
+
+                {txt}total low-income, working age
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res}-1.850499      -2.344712
+{txt} 5%    {res}-1.407364      -2.310096
+{txt}10%    {res}-1.046179      -2.257373       {txt}Obs         {res}     12,955
+{txt}25%    {res}-.2959479      -2.208674       {txt}Sum of Wgt. {res}     12,955
+
+{txt}50%    {res}  .764452                      {txt}Mean          {res} 1.123997
+                        {txt}Largest       Std. Dev.     {res} 2.030244
+{txt}75%    {res} 2.143119       11.30941
+{txt}90%    {res} 3.542359       11.30941       {txt}Variance      {res} 4.121891
+{txt}95%    {res} 4.658007       11.30941       {txt}Skewness      {res} 1.482703
+{txt}99%    {res} 8.314056       11.30941       {txt}Kurtosis      {res} 6.761564
+
+                {txt}total homeowners, working age
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res}-3.124308        -3.3507
+{txt} 5%    {res}-2.858731      -3.330994
+{txt}10%    {res}-2.644054      -3.321868       {txt}Obs         {res}     12,981
+{txt}25%    {res} -2.04018      -3.316205       {txt}Sum of Wgt. {res}     12,981
+
+{txt}50%    {res}-.9594744                      {txt}Mean          {res}-.7312019
+                        {txt}Largest       Std. Dev.     {res} 1.580045
+{txt}75%    {res} .4091489       2.982802
+{txt}90%    {res}  1.57148       2.982802       {txt}Variance      {res} 2.496542
+{txt}95%    {res} 2.164044       2.982802       {txt}Skewness      {res} .4914634
+{txt}99%    {res}  2.93064       2.982802       {txt}Kurtosis      {res} 2.322787
+
+                 {txt}total speak english at home
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res} -17.0434      -32.84809
+{txt} 5%    {res}-9.034717       -30.7914
+{txt}10%    {res}-5.622168      -29.06818       {txt}Obs         {res}     14,166
+{txt}25%    {res}-1.698197      -28.43103       {txt}Sum of Wgt. {res}     14,166
+
+{txt}50%    {res} .4537628                      {txt}Mean          {res}-1.249871
+                        {txt}Largest       Std. Dev.     {res} 3.676946
+{txt}75%    {res} .8179017        .833317
+{txt}90%    {res}  .833317        .833317       {txt}Variance      {res} 13.51993
+{txt}95%    {res}  .833317        .833317       {txt}Skewness      {res}-2.846321
+{txt}99%    {res}  .833317        .833317       {txt}Kurtosis      {res} 12.91841
+
+            {txt}total speak foreign language at home
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res} -.815541      -.8297376
+{txt} 5%    {res}-.7729096      -.8295062
+{txt}10%    {res}-.6880295      -.8291788       {txt}Obs         {res}      8,527
+{txt}25%    {res}-.2377389      -.8288305       {txt}Sum of Wgt. {res}      8,527
+
+{txt}50%    {res} 1.023354                      {txt}Mean          {res} 2.711737
+                        {txt}Largest       Std. Dev.     {res} 4.634721
+{txt}75%    {res} 3.779375       38.61941
+{txt}90%    {res} 8.269507       38.61941       {txt}Variance      {res} 21.48063
+{txt}95%    {res} 11.79954       38.61941       {txt}Skewness      {res} 2.707499
+{txt}99%    {res} 21.02032       38.61941       {txt}Kurtosis      {res}  13.3039
+
+                {txt}total rent-burdened household
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res}-5.698839      -7.942207
+{txt} 5%    {res}-3.836624      -7.941436
+{txt}10%    {res}-2.665379      -7.867756       {txt}Obs         {res}     12,879
+{txt}25%    {res}-.8648985      -7.817402       {txt}Sum of Wgt. {res}     12,879
+
+{txt}50%    {res} .7274162                      {txt}Mean          {res} .9481283
+                        {txt}Largest       Std. Dev.     {res} 3.149652
+{txt}75%    {res} 2.313596        11.6561
+{txt}90%    {res} 4.538618        11.6561       {txt}Variance      {res} 9.920306
+{txt}95%    {res} 6.968881        11.6561       {txt}Skewness      {res} .8072786
+{txt}99%    {res}  11.6561        11.6561       {txt}Kurtosis      {res} 4.729788
+
+               {txt}total owner-burdened household
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res}-4.324413        -5.7341
+{txt} 5%    {res}-3.049363      -5.680814
+{txt}10%    {res}-2.106884      -5.595306       {txt}Obs         {res}     11,343
+{txt}25%    {res}-.5546548      -5.591201       {txt}Sum of Wgt. {res}     11,343
+
+{txt}50%    {res} 1.163768                      {txt}Mean          {res} 1.635206
+                        {txt}Largest       Std. Dev.     {res} 3.458604
+{txt}75%    {res} 3.023841       15.32124
+{txt}90%    {res} 5.804672       15.32124       {txt}Variance      {res} 11.96194
+{txt}95%    {res} 8.048537       15.32124       {txt}Skewness      {res} 1.309242
+{txt}99%    {res} 15.03429       15.32124       {txt}Kurtosis      {res} 5.894088
+{txt}
+{com}.         
+.         
+. log close 
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}/Users/Dora/Library/Mobile Documents/com~apple~CloudDocs/Projects/Superdiversity/Data/Phase 2/5_Intersectionality Dashboard/Logs.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res}25 Sep 2020, 21:26:26
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}
